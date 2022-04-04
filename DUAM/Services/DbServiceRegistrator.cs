@@ -27,6 +27,7 @@ namespace DUAM.Services
                     default: throw new InvalidOperationException($"Тип подключения {type} не поддерживается");
 
                 }
-            });
+            })
+            .AddRepositories();
     }
 }

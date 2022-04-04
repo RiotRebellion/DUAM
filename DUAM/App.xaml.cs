@@ -1,12 +1,9 @@
 ﻿using DUAM.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 
 namespace DUAM
@@ -24,16 +21,18 @@ namespace DUAM
         public static IHostBuilder CreateHostBuilder(string[] args) => Microsoft.Extensions.Hosting.Host
             .CreateDefaultBuilder(args)
             .ConfigureServices(App.ConfigureServices);
+            
 
         internal static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
-            .AddDatabase(host.Configuration.GetSection("Database"));
+            .AddDatabase(host.Configuration.GetSection("Database"))
+            .AddViewModels()
+        ;
 
         protected override async void OnStartup(StartupEventArgs e)
         {
             var host = Host;
-
             base.OnStartup(e);
-            await host.StartAsync();
+            await Host.StartAsync();
         }
 
         protected override async void OnExit(ExitEventArgs e)

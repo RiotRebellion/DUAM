@@ -4,42 +4,49 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DUAM.Views.Windows"
+        xmlns:vm="clr-namespace:DUAM.ViewModels"
+        xmlns:cnvrt="clr-namespace:DUAM.Infrastructure.Converters"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        Style="{DynamicResource MainWindow}">
-    
+        Title="Активность пользователей" 
+        MinHeight="480pt"
+        MinWidth="640pt"
+        Height="450pt" Width="800pt">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100pt"/>
+            <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-
-        <StackPanel Grid.RowSpan="3" 
-                    Margin="5"
-                    Orientation="Vertical"
-                    >
-
-            <Button Height="50" 
-                    Style="{DynamicResource ButtonMenuTheme}">
-                Обновить
-            </Button>
-
-            <Button Height="50"
-                    Style="{DynamicResource ButtonMenuTheme}">
-                Печать в Excel
-            </Button>
-
-        </StackPanel>
-        
-        <DataGrid Grid.Column="1"
-                  Grid.ColumnSpan="2"
-                  Grid.RowSpan="3"
-                  Margin="5"/>
+        <DataGrid Grid.ColumnSpan="3"
+                  Grid.RowSpan="2"
+                  Margin="5"
+                  HorizontalContentAlignment="Center"
+                  ColumnWidth="auto"
+                  ItemsSource="{Binding UserSourceCollection}"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*"
+                                    Header="Пользователь"
+                                    Binding="{Binding FullName}"/>
+                <DataGridTextColumn Header="Дата последней авторизации" Binding="{Binding LastAccess}"/>
+                <DataGridTextColumn Header="Кол-во дней без авторизации" Binding="{Binding DaysAgoCount}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Grid.Row="2"
+                   VerticalAlignment="Bottom"
+                   Margin="5"
+                   Text="{Binding LastUpdateStatus}"/>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="2"
+                   VerticalAlignment="Bottom"
+                   Margin="5"
+                   TextAlignment="Right"
+                   Text="{Binding ConnectionStatus}"/>
     </Grid>
 </Window>

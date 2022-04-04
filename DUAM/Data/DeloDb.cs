@@ -13,5 +13,10 @@ namespace DUAM.Data
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasNoKey();
+        }
     }
 }
